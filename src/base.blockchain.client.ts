@@ -3,9 +3,11 @@ import { Erc20Abi, Erc20Abi__factory } from "artifacts"
 import { WebsocketClient } from "./websocket.client"
 import { EventEmitter } from "stream"
 import { Signer } from "ethers"
+import { Logger } from "@nestjs/common"
+import { environment } from "./env"
 
-const USDT_CONTRACT_ADDRESS = "0xdac17f958d2ee523a2206206994597c13d831ec7"
-const nodeUrl = "https://mainnet.infura.io/v3/8e4b8b0b4b0c4b0f9b0b4b0b4b0b4b0b"
+const nodeUrl = environment.blockchainNodeAddress.value
+const USDT_CONTRACT_ADDRESS = environment.usdtContractAddress.value
 
 export class BaseBlockchainClient {
     private emitter: EventEmitter = new EventEmitter()
@@ -30,12 +32,18 @@ export class BaseBlockchainClient {
                 providerFactory = () => new JsonRpcProvider(nodeUrl)
             }
 
+        
+            Logger.log("Initializing BlockchainClient")
+            Logger.log("Connecting to " + nodeUrl)
+            Logger.log("USDT_CONTRACT_ADDRESS: " + USDT_CONTRACT_ADDRESS)
+
             const initalize = () => {
                 const provider = providerFactory()
                 this.provider = provider
                 const providerOrSigner = this.createSigner(provider) ?? provider
     
                 this.usdt = Erc20Abi__factory.connect(USDT_CONTRACT_ADDRESS, providerOrSigner)
+                Logger.log("BlockchainClient initialized")
             }
 
             if (websocketManager) {

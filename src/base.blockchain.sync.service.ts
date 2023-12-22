@@ -1,9 +1,10 @@
 import { Log, Provider, WebSocketProvider } from "@ethersproject/providers"
 import { BaseContract } from "ethers"
-import pLimit from "p-limit"
 import { BehaviorSubject } from "rxjs"
 import { BaseBlockchainClient } from "./base.blockchain.client"
 import { environment } from "./env"
+import pLimit from "p-limit"
+import { BlockchainClient } from "./blockchain.client"
 
 export interface ContractSyncAdapter<EventType, IdType> {
     clearPersistenceBeforeResync?: boolean
@@ -36,7 +37,8 @@ export abstract class BaseBlockchainSyncService {
     private pendingProcessing: Array<Promise<void>> = []
 
     constructor(private readonly baseBlockchainClient: BaseBlockchainClient) {
-        this.baseBlockchainClient.onContractsIntialized(() => this.run())
+        // this.baseBlockchainClient.onContractsIntialized(() => this.run())
+        this.run()
     }
 
     protected async run() {
@@ -138,8 +140,9 @@ export abstract class BaseBlockchainSyncService {
         const serialize = pLimit(1)
         adapter.onEvent((eventContents, event) => {
             const pendingProcessing = serialize(async () => {
-                console.log(`Received Event: ${adapter.entityName} ${JSON.stringify(eventContents)}`)
-
+                console.log(`Received Event: ${adapter.entityName} ${JSON.stringify(eventContents)} ${JSON.stringify(event)}`)
+                // const contents = await eventContents
+                // console.log(`Processing Event: ${adapter.entityName} ${JSON.stringify(contents)} ${JSON.stringify(event)}`)
                 await adapter.persist(await eventContents)
 
                 // Update sync state on each event

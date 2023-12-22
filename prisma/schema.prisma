@@ -36,3 +36,17 @@ model Proof {
   blockNumber      Int
   verification     Verification @relation(fields: [verificationId], references: [id])
 }
+
+model Account {
+  address          String       @id
+  balance          Decimal
+  blockNumber      Int
+  contractAddress  String
+}
+
+model BlockchainSyncState {
+  entity              String @id
+  earliestBlockHash   String
+  contractAddress     String
+  lastSeenBlockNumber Int
+}

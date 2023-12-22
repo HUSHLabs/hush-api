@@ -22,5 +22,6 @@ export const environment = {
     blockchainNodeAddress: new EnvironmentValue("BLOCKCHAIN_NODE_ADDRESS"),
     usdtContractAddress: new EnvironmentValue("USDT_CONTRACT_ADDRESS"),
     websocketNodeAddress: new EnvironmentValue("WEBSOCKET_NODE_ADDRESS"),
-    operationalPrivateKey: new EnvironmentValue("OPERATIONAL_PRIVATE_KEY")
+    // operationalPrivateKey: new EnvironmentValue("OPERATIONAL_PRIVATE_KEY"),
+    startSyncBlock: new EnvironmentValue("START_SYNC_BLOCK")
 }

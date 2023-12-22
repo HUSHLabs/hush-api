@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { VerificationService } from './verification.service';
 import { VerificationController } from './verification.controller';
 import { PrismaService } from './prisma.service';
+import { BlockchainSyncService } from "./blockchain.sync.service"
+import { BaseBlockchainClient } from './base.blockchain.client';
 
 @Module({
   imports: [],
@@ -14,7 +16,10 @@ import { PrismaService } from './prisma.service';
   providers: [
     AppService, 
     PrismaService,
-    VerificationService
+    VerificationService,
+    BaseBlockchainClient,
+    BlockchainSyncService
   ],
 })
+
 export class AppModule {}
