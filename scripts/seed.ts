@@ -1,5 +1,4 @@
 import { PrismaService } from "../src/prisma.service";
-import { UUID } from "crypto"
 
 const prisma = new PrismaService();
 async function main() {
@@ -7,7 +6,7 @@ async function main() {
     data: {
       id: "893a7765-773d-4b65-aebf-9f9c9644d5a5",
       threshold: 100000,
-      contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec8",
+      contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
       callbackUrls: ["https://0xbin.xyz/verification/callback"],
       statement: "I hereby state that i own account with more than 100k USDT at ethereum mainnet for purpose of onboarding to 0xbin at blocknumber 18842308.",
       client: {
