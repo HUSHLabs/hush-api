@@ -1,10 +1,10 @@
-import { PrismaService, bigIntToDecimal, bigNumberToDecimal } from "./prisma.service"
+import { PrismaService } from "./prisma.service"
 import { Erc20Abi } from "artifacts"
 import { TransferEventObject } from "artifacts/Erc20Abi"
 import { tuple } from "./utils"
 import { ContractSyncAdapter, SyncAdapterSubscriptionHandler } from "./base.blockchain.sync.service"
 import { Logger } from "@nestjs/common"
-import { BaseBlockchainClient } from "./base.blockchain.client"
+import { ethers } from "ethers"
 
 export class ERC20RecordSyncAdapter implements ContractSyncAdapter<TransferEventObject, string> {
     entityName = "erc20Record"
@@ -38,6 +38,9 @@ export class ERC20RecordSyncAdapter implements ContractSyncAdapter<TransferEvent
         // extract from args the fields we want to persist
         Logger.log("Persisting Transfer event",  { from, to, value })  
         // convert event to a record
+        const decimals = await this.contract.decimals()
+        const fromFormatted = ethers.utils.formatUnits(await this.contract.balanceOf(from), decimals)
+        const toFormatted = ethers.utils.formatUnits(await this.contract.balanceOf(to), decimals)
 
         // Update from account state
         await this.prismaService.account.upsert({
@@ -47,12 +50,12 @@ export class ERC20RecordSyncAdapter implements ContractSyncAdapter<TransferEvent
             },
             create: {
                 address: from,
-                balance: bigNumberToDecimal(await this.contract.balanceOf(from)),
+                balance: fromFormatted,
                 contractAddress: this.contract.address, 
                 blockNumber: blockNumber
             },
             update: {
-                balance: bigNumberToDecimal(await this.contract.balanceOf(from)),
+                balance: fromFormatted,
                 blockNumber: blockNumber
             }
         })
@@ -64,12 +67,12 @@ export class ERC20RecordSyncAdapter implements ContractSyncAdapter<TransferEvent
             },
             create: {
                 address: to,
-                balance: bigNumberToDecimal(await this.contract.balanceOf(to)),
+                balance: toFormatted,
                 contractAddress: this.contract.address, 
                 blockNumber: blockNumber
             },
             update: {
-                balance: bigNumberToDecimal(await this.contract.balanceOf(to)),
+                balance: toFormatted,
                 blockNumber: blockNumber
             }
         })

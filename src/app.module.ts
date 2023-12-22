@@ -16,9 +16,9 @@ import { BaseBlockchainClient } from './base.blockchain.client';
   providers: [
     AppService, 
     PrismaService,
-    VerificationService,
     BaseBlockchainClient,
-    BlockchainSyncService
+    BlockchainSyncService,
+    VerificationService,
   ],
 })
 

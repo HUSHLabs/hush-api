@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from './prisma.service';
 import { Verification } from "@prisma/client";
 
@@ -17,6 +17,7 @@ export class VerificationService {
             }
         });
 
+        Logger.log(`Returning verification with id ${id} verification: ${JSON.stringify(verification)}`);
         return verification;
     }
 }
