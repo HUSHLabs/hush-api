@@ -2,6 +2,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
+import { BigNumber } from 'ethers';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -20,4 +21,9 @@ export function decimalToBigInt(decimal: Decimal) {
 
 export function bigIntToDecimal(bigInt: bigint) {
     return new Decimal(bigInt.toString())
+}
+
+// write function to convert from BigNumber to Decimal
+export function bigNumberToDecimal(bigNumber: BigNumber) {
+    return new Decimal(bigNumber.toString())
 }

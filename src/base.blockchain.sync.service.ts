@@ -4,7 +4,6 @@ import { BehaviorSubject } from "rxjs"
 import { BaseBlockchainClient } from "./base.blockchain.client"
 import { environment } from "./env"
 import pLimit from "p-limit"
-import { BlockchainClient } from "./blockchain.client"
 
 export interface ContractSyncAdapter<EventType, IdType> {
     clearPersistenceBeforeResync?: boolean
@@ -13,7 +12,7 @@ export interface ContractSyncAdapter<EventType, IdType> {
     queryFilter(fromBlock: number, toBlock: number): Promise<Array<[EventType, Log]>>
     /// Important: handler must be called synchronously with event delivery, otherwise block sync may not work
     onEvent(handler: SyncAdapterSubscriptionHandler<EventType>): void
-    persist(event: EventType): Promise<IdType | null>
+    persist(event: EventType, blockNumber? : number): Promise<IdType | null>
     clearPersistence(exceptIds: IdType[]): Promise<void>
     statefulUpdate(): Promise<EventType[]>
 }
@@ -65,6 +64,7 @@ export abstract class BaseBlockchainSyncService {
         const earliestBlockHash = (await adapter.contract.provider.getBlock("earliest")).hash
         const contractAddress = adapter.contract.address
         const currentBlockNumber = (await adapter.contract.provider.getBlock("latest")).number
+        console.log(`Current block number: ${currentBlockNumber}`)
 
         let blockchainSyncState: BlockchainSyncState
         // We're dealing with either a first run, a different blockchain or a different
@@ -122,7 +122,8 @@ export abstract class BaseBlockchainSyncService {
             const orderedEvents = missedEvents.sort(([_1, event1], [_2, event2]) => this.compareEvents(event1, event2))
             for (const [eventObject, _event] of orderedEvents) {
                 console.log(`Catch Up:  ${adapter.entityName}`)
-                const id = await adapter.persist(eventObject)
+                console.log(`Event object catchup: ${eventObject}`)
+                const id = await adapter.persist(eventObject, _event.blockNumber)
                 if (id) persistedIds.push(id)
             }
         }
@@ -138,12 +139,10 @@ export abstract class BaseBlockchainSyncService {
 
         // Subscribe to new events
         const serialize = pLimit(1)
-        adapter.onEvent((eventContents, event) => {
+        adapter.onEvent((eventContents: EventType, event: Log) => {
             const pendingProcessing = serialize(async () => {
-                console.log(`Received Event: ${adapter.entityName} ${JSON.stringify(eventContents)} ${JSON.stringify(event)}`)
-                // const contents = await eventContents
-                // console.log(`Processing Event: ${adapter.entityName} ${JSON.stringify(contents)} ${JSON.stringify(event)}`)
-                await adapter.persist(await eventContents)
+                console.log(`Event object at real time: ${await eventContents}`)
+                await adapter.persist(eventContents, event.blockNumber)
 
                 // Update sync state on each event
                 blockchainSyncState = { ...blockchainSyncState, lastSeenBlockNumber: event.blockNumber }
