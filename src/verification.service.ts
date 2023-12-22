@@ -1,13 +1,21 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { PrismaService } from './prisma.service';
-import { Verification } from "@prisma/client";
+import { PrismaDecimal, PrismaService } from './prisma.service';
+
+export type VerificationResponse = {
+    id: string,
+    threshold: PrismaDecimal,
+    contractAddress: string,
+    statement: string,
+    clientName: string,
+    clientLogo: string
+}
 
 @Injectable()
 export class VerificationService {
     constructor(private readonly prismaService: PrismaService) {}
 
     // TODO: Implement guard for this route
-    async getVerificationById(id: string): Promise<Verification> {
+    async getVerificationById(id: string): Promise<VerificationResponse> {
         const verification = await this.prismaService.verification.findUnique({
             where: {
                 id: id
@@ -18,6 +26,14 @@ export class VerificationService {
         });
 
         Logger.log(`Returning verification with id ${id} verification: ${JSON.stringify(verification)}`);
-        return verification;
+        
+        return {
+            id: verification.id, 
+            threshold: verification.threshold,
+            contractAddress: verification.contractAddress,
+            statement: verification.statement,
+            clientName: verification.client.name,
+            clientLogo: verification.client.logoUrl
+        } 
     }
 }
