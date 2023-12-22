@@ -10,4 +10,9 @@ export class VerificationController {
         Logger.log(`Received request for verification with id ${id}`);
         return this.verificationService.getVerificationById(id);
     }
+    @Get("/verifications")
+    async getVerifications(): Promise<VerificationResponse[]> {
+
+        return this.verificationService.getVerifications();
+    }
 }
