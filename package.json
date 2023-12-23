@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "generate-typechain": "npx typechain --target=ethers-v5 --out-dir=artifacts/ artifacts/erc20.abi.json"
+    "generate-typechain": "npx typechain --target=ethers-v5 --out-dir=artifacts/ artifacts/erc20.abi.json",
+    "log-port": "echo $PORT"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
