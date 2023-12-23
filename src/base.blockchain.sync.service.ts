@@ -36,14 +36,14 @@ export abstract class BaseBlockchainSyncService {
     private pendingProcessing: Array<Promise<void>> = []
 
     constructor(private readonly baseBlockchainClient: BaseBlockchainClient) {
-        // this.baseBlockchainClient.onContractsIntialized(() => this.run())
-        // this.run()
+        this.baseBlockchainClient.onContractsIntialized(() => this.run())
+        this.run()
     }
 
     protected async run() {
         if (!this.baseBlockchainClient.provider) return
 
-        // this.trackBlockNumber(this.baseBlockchainClient.provider)
+        this.trackBlockNumber(this.baseBlockchainClient.provider)
     }
 
     protected abstract getBlockchainSyncState(entity: string): Promise<BlockchainSyncState | null>
