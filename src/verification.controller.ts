@@ -5,10 +5,10 @@ import { VerificationService, VerificationResponse } from "./verification.servic
 export class VerificationController {
     constructor(private readonly verificationService: VerificationService) {}
 
-    @Get("/verification/:id")
-    async getVerificationById(@Param("id")id: string): Promise<VerificationResponse> {
-        Logger.log(`Received request for verification with id ${id}`);
-        return this.verificationService.getVerificationById(id);
+    @Get("/verification/:slug")
+    async getVerificationById(@Param("slug")slug: string): Promise<VerificationResponse> {
+        Logger.log(`Received request for verification with slug ${slug}`);
+        return this.verificationService.getVerificationBySlug(slug);
     }
     @Get("/verifications")
     async getVerifications(): Promise<VerificationResponse[]> {

@@ -9,6 +9,7 @@ async function main() {
       contractAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
       callbackUrls: ["https://0xbin.xyz/verification/callback"],
       statement: "I hereby state that i own account with more than 100k USDT at ethereum mainnet for purpose of onboarding to 0xbin at blocknumber 18842308.",
+      slug: "100k-club",
       client: {
         create: {
           id: "cd79241b-f335-4462-9f4a-0424aa0e77f5",

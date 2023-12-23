@@ -16,6 +16,7 @@ model Verification {
   callbackUrls     String[]
   client           Client      @relation(fields: [clientId], references: [id])
   proofs           Proof[]
+  slug             String
 }
 
 model Client {

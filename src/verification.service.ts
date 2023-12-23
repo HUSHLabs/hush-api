@@ -7,7 +7,8 @@ export type VerificationResponse = {
     contractAddress: string,
     statement: string,
     clientName: string,
-    clientLogo: string
+    clientLogo: string,
+    slug: string
 }
 
 @Injectable()
@@ -29,6 +30,7 @@ export class VerificationService {
         return verifications.map(verification => {
             return {
                 id: verification.id,
+                slug: verification.slug,
                 threshold: verification.threshold,
                 contractAddress: verification.contractAddress,
                 statement: verification.statement,
@@ -39,20 +41,21 @@ export class VerificationService {
     }
 
     // TODO: Implement guard for this route
-    async getVerificationById(id: string): Promise<VerificationResponse> {
-        const verification = await this.prismaService.verification.findUnique({
+    async getVerificationBySlug(slug: string): Promise<VerificationResponse> {
+        const verification = await this.prismaService.verification.findFirst({
             where: {
-                id: id
+                slug: slug
             },
             include: {
                 client: true
             }
         });
 
-        Logger.log(`Returning verification with id ${id} verification: ${JSON.stringify(verification)}`);
+        Logger.log(`Returning verification with id ${slug} verification: ${JSON.stringify(verification)}`);
 
         return {
             id: verification.id,
+            slug: verification.slug,
             threshold: verification.threshold,
             contractAddress: verification.contractAddress,
             statement: verification.statement,
