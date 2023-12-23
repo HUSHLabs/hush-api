@@ -5,10 +5,6 @@ import { environment } from './env';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  if(environment.vercelEnvPort) {
-    await app.listen(Number(environment.vercelEnvPort));
-  } else {
-    await app.listen(4000);
-  }
+  await app.listen(Number(environment.port));
 }
 bootstrap();
