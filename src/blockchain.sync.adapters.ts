@@ -1,6 +1,6 @@
 import { PrismaService } from "./prisma.service"
-import { Erc20Abi } from "src/artifacts"
-import { TransferEventObject } from "src/artifacts/Erc20Abi"
+import { Erc20Abi } from "./artifacts"
+import { TransferEventObject } from "./artifacts/Erc20Abi"
 import { tuple } from "./utils"
 import { ContractSyncAdapter, SyncAdapterSubscriptionHandler } from "./base.blockchain.sync.service"
 import { Logger } from "@nestjs/common"

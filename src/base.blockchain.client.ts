@@ -1,5 +1,5 @@
 import { BaseProvider, JsonRpcProvider } from "@ethersproject/providers"
-import { Erc20Abi, Erc20Abi__factory } from "src/artifacts"
+import { Erc20Abi, Erc20Abi__factory } from "./artifacts"
 import { WebsocketClient } from "./websocket.client"
 import { EventEmitter } from "stream"
 import { Signer } from "ethers"
