@@ -32,9 +32,9 @@ export class BlockchainSyncService extends BaseBlockchainSyncService {
         if (this.blockchainClient.usdt) {
             await this.startSync(
                 new ERC20RecordSyncAdapter(this.blockchainClient.usdt, this.prismaService),
-                Number(environment.startSyncBlock.value)
+                this.blockchainClient.provider._lastBlockNumber
             )
-            Logger.log("Started USDT sync at block " + environment.startSyncBlock.value)
+            Logger.log("Started USDT sync at block " + this.blockchainClient.provider._lastBlockNumber)
         }
 
         this.initializedAtLeastOnce = true

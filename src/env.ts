@@ -23,5 +23,6 @@ export const environment = {
     usdtContractAddress: new EnvironmentValue("USDT_CONTRACT_ADDRESS"),
     websocketNodeAddress: new EnvironmentValue("WEBSOCKET_NODE_ADDRESS"),
     // operationalPrivateKey: new EnvironmentValue("OPERATIONAL_PRIVATE_KEY"),
-    startSyncBlock: new EnvironmentValue("START_SYNC_BLOCK")
+    startSyncBlock: new EnvironmentValue("START_SYNC_BLOCK"),
+    vercelEnvPort: new EnvironmentValue("VERCEL_ENV_PORT"),
 }
