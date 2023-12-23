@@ -2,7 +2,7 @@
   "name": "hush-api",
   "version": "0.0.1",
   "description": "",
-  "author": " ",
+  "author": "",
   "private": true,
   "license": "UNLICENSED",
   "engines": {
@@ -23,7 +23,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "generate-typechain": "npx typechain --target=ethers-v5 --out-dir=artifacts/ artifacts/erc20.abi.json",
     "log-port": "echo $PORT",
-    "postinstall": "npx prisma generate"
+    "postinstall": "npm run build && npx prisma generate"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.7.2",
