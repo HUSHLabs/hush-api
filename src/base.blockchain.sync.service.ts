@@ -36,7 +36,7 @@ export abstract class BaseBlockchainSyncService {
     private pendingProcessing: Array<Promise<void>> = []
 
     constructor(private readonly baseBlockchainClient: BaseBlockchainClient) {
-        this.baseBlockchainClient.onContractsIntialized(() => this.run())
+        // this.baseBlockchainClient.onContractsIntialized(() => this.run())
         this.run()
     }
 
