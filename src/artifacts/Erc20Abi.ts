@@ -12,94 +12,94 @@ import type {
   PopulatedTransaction,
   Signer,
   utils,
-} from "ethers";
+} from 'ethers';
 import type {
   FunctionFragment,
   Result,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from '@ethersproject/abi';
+import type { Listener, Provider } from '@ethersproject/providers';
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "./common";
+} from './common';
 
 export interface Erc20AbiInterface extends utils.Interface {
   functions: {
-    "name()": FunctionFragment;
-    "approve(address,uint256)": FunctionFragment;
-    "totalSupply()": FunctionFragment;
-    "transferFrom(address,address,uint256)": FunctionFragment;
-    "decimals()": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
-    "symbol()": FunctionFragment;
-    "transfer(address,uint256)": FunctionFragment;
-    "allowance(address,address)": FunctionFragment;
+    'name()': FunctionFragment;
+    'approve(address,uint256)': FunctionFragment;
+    'totalSupply()': FunctionFragment;
+    'transferFrom(address,address,uint256)': FunctionFragment;
+    'decimals()': FunctionFragment;
+    'balanceOf(address)': FunctionFragment;
+    'symbol()': FunctionFragment;
+    'transfer(address,uint256)': FunctionFragment;
+    'allowance(address,address)': FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "name"
-      | "approve"
-      | "totalSupply"
-      | "transferFrom"
-      | "decimals"
-      | "balanceOf"
-      | "symbol"
-      | "transfer"
-      | "allowance"
+      | 'name'
+      | 'approve'
+      | 'totalSupply'
+      | 'transferFrom'
+      | 'decimals'
+      | 'balanceOf'
+      | 'symbol'
+      | 'transfer'
+      | 'allowance',
   ): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "approve",
-    values: [string, BigNumberish]
+    functionFragment: 'approve',
+    values: [string, BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
+    functionFragment: 'totalSupply',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
+    functionFragment: 'transferFrom',
+    values: [string, string, BigNumberish],
   ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "transfer",
-    values: [string, BigNumberish]
+    functionFragment: 'transfer',
+    values: [string, BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "allowance",
-    values: [string, string]
+    functionFragment: 'allowance',
+    values: [string, string],
   ): string;
 
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "totalSupply",
-    data: BytesLike
+    functionFragment: 'totalSupply',
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
+    functionFragment: 'transferFrom',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
 
   events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
+    'Approval(address,address,uint256)': EventFragment;
+    'Transfer(address,address,uint256)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
 }
 
 export interface ApprovalEventObject {
@@ -136,15 +136,15 @@ export interface Erc20Abi extends BaseContract {
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TEvent>>;
 
   listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
+    eventFilter?: TypedEventFilter<TEvent>,
   ): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
   removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
+    eventFilter: TypedEventFilter<TEvent>,
   ): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
@@ -158,7 +158,7 @@ export interface Erc20Abi extends BaseContract {
     approve(
       _spender: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<ContractTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -167,14 +167,14 @@ export interface Erc20Abi extends BaseContract {
       _from: string,
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<ContractTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     balanceOf(
       _owner: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<[BigNumber] & { balance: BigNumber }>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
@@ -182,13 +182,13 @@ export interface Erc20Abi extends BaseContract {
     transfer(
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<ContractTransaction>;
 
     allowance(
       _owner: string,
       _spender: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<[BigNumber]>;
   };
 
@@ -197,7 +197,7 @@ export interface Erc20Abi extends BaseContract {
   approve(
     _spender: string,
     _value: BigNumberish,
-    overrides?: Overrides & { from?: string }
+    overrides?: Overrides & { from?: string },
   ): Promise<ContractTransaction>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
@@ -206,7 +206,7 @@ export interface Erc20Abi extends BaseContract {
     _from: string,
     _to: string,
     _value: BigNumberish,
-    overrides?: Overrides & { from?: string }
+    overrides?: Overrides & { from?: string },
   ): Promise<ContractTransaction>;
 
   decimals(overrides?: CallOverrides): Promise<number>;
@@ -218,13 +218,13 @@ export interface Erc20Abi extends BaseContract {
   transfer(
     _to: string,
     _value: BigNumberish,
-    overrides?: Overrides & { from?: string }
+    overrides?: Overrides & { from?: string },
   ): Promise<ContractTransaction>;
 
   allowance(
     _owner: string,
     _spender: string,
-    overrides?: CallOverrides
+    overrides?: CallOverrides,
   ): Promise<BigNumber>;
 
   callStatic: {
@@ -233,7 +233,7 @@ export interface Erc20Abi extends BaseContract {
     approve(
       _spender: string,
       _value: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<boolean>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
@@ -242,7 +242,7 @@ export interface Erc20Abi extends BaseContract {
       _from: string,
       _to: string,
       _value: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<boolean>;
 
     decimals(overrides?: CallOverrides): Promise<number>;
@@ -254,37 +254,37 @@ export interface Erc20Abi extends BaseContract {
     transfer(
       _to: string,
       _value: BigNumberish,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<boolean>;
 
     allowance(
       _owner: string,
       _spender: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<BigNumber>;
   };
 
   filters: {
-    "Approval(address,address,uint256)"(
+    'Approval(address,address,uint256)'(
       owner?: string | null,
       spender?: string | null,
-      value?: null
+      value?: null,
     ): ApprovalEventFilter;
     Approval(
       owner?: string | null,
       spender?: string | null,
-      value?: null
+      value?: null,
     ): ApprovalEventFilter;
 
-    "Transfer(address,address,uint256)"(
+    'Transfer(address,address,uint256)'(
       from?: string | null,
       to?: string | null,
-      value?: null
+      value?: null,
     ): TransferEventFilter;
     Transfer(
       from?: string | null,
       to?: string | null,
-      value?: null
+      value?: null,
     ): TransferEventFilter;
   };
 
@@ -294,7 +294,7 @@ export interface Erc20Abi extends BaseContract {
     approve(
       _spender: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
@@ -303,7 +303,7 @@ export interface Erc20Abi extends BaseContract {
       _from: string,
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
@@ -315,13 +315,13 @@ export interface Erc20Abi extends BaseContract {
     transfer(
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<BigNumber>;
 
     allowance(
       _owner: string,
       _spender: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<BigNumber>;
   };
 
@@ -331,7 +331,7 @@ export interface Erc20Abi extends BaseContract {
     approve(
       _spender: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<PopulatedTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -340,14 +340,14 @@ export interface Erc20Abi extends BaseContract {
       _from: string,
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<PopulatedTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     balanceOf(
       _owner: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -355,13 +355,13 @@ export interface Erc20Abi extends BaseContract {
     transfer(
       _to: string,
       _value: BigNumberish,
-      overrides?: Overrides & { from?: string }
+      overrides?: Overrides & { from?: string },
     ): Promise<PopulatedTransaction>;
 
     allowance(
       _owner: string,
       _spender: string,
-      overrides?: CallOverrides
+      overrides?: CallOverrides,
     ): Promise<PopulatedTransaction>;
   };
 }
