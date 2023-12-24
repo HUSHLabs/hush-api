@@ -120,42 +120,42 @@ export abstract class BaseBlockchainSyncService {
     // Catch up on anything we missed while the service was down
     // This includes loading initial state on first run
     const persistedIds = [];
-    if (currentBlockNumber !== blockchainSyncState.lastSeenBlockNumber) {
-      console.log('Performing log-based catch up...');
-
-      const startingBlockNumber =
-        (blockchainSyncState.lastSeenBlockNumber ?? -1) + 1;
-      const blockRange = currentBlockNumber - startingBlockNumber + 1; // plus one because this is an inclusive range
-      const numberOfLogRequests = Math.ceil(
-        blockRange / maxEventLookbackBlocks,
-      );
-      if (numberOfLogRequests > 1) {
-        console.log('Need to make multiple requests for logs');
-      }
-
-      const missedEvents: Array<[EventType, Log]> = [];
-      for (let i = 0; i < numberOfLogRequests; i++) {
-        const start = startingBlockNumber + maxEventLookbackBlocks * i;
-        // Since queryFilter is inclusive on both ends, fetching up to start + maxEventLookbackBlocks will actually fetch
-        // maxEventLookbackBlocks + 1 blocks, which not what we want, so we need to subtract 1.
-        const end = Math.min(
-          start + maxEventLookbackBlocks - 1,
-          currentBlockNumber,
-        );
-        console.log(`Query blocks for logs: ${start} to ${end}`);
-        missedEvents.push(...(await adapter.queryFilter(start, end)));
-      }
-      console.log('Done querying for logs');
-      const orderedEvents = missedEvents.sort(([_1, event1], [_2, event2]) =>
-        this.compareEvents(event1, event2),
-      );
-      for (const [eventObject, _event] of orderedEvents) {
-        console.log(`Catch Up:  ${adapter.entityName}`);
-        console.log(`Event object catchup: ${eventObject}`);
-        const id = await adapter.persist(eventObject, _event.blockNumber);
-        if (id) persistedIds.push(id);
-      }
-    }
+    // if (currentBlockNumber !== blockchainSyncState.lastSeenBlockNumber) {
+    //   console.log('Performing log-based catch up...');
+    //
+    //   const startingBlockNumber =
+    //     (blockchainSyncState.lastSeenBlockNumber ?? -1) + 1;
+    //   const blockRange = currentBlockNumber - startingBlockNumber + 1; // plus one because this is an inclusive range
+    //   const numberOfLogRequests = Math.ceil(
+    //     blockRange / maxEventLookbackBlocks,
+    //   );
+    //   if (numberOfLogRequests > 1) {
+    //     console.log('Need to make multiple requests for logs');
+    //   }
+    //
+    //   const missedEvents: Array<[EventType, Log]> = [];
+    //   for (let i = 0; i < numberOfLogRequests; i++) {
+    //     const start = startingBlockNumber + maxEventLookbackBlocks * i;
+    //     // Since queryFilter is inclusive on both ends, fetching up to start + maxEventLookbackBlocks will actually fetch
+    //     // maxEventLookbackBlocks + 1 blocks, which not what we want, so we need to subtract 1.
+    //     const end = Math.min(
+    //       start + maxEventLookbackBlocks - 1,
+    //       currentBlockNumber,
+    //     );
+    //     console.log(`Query blocks for logs: ${start} to ${end}`);
+    //     missedEvents.push(...(await adapter.queryFilter(start, end)));
+    //   }
+    //   console.log('Done querying for logs');
+    //   const orderedEvents = missedEvents.sort(([_1, event1], [_2, event2]) =>
+    //     this.compareEvents(event1, event2),
+    //   );
+    //   for (const [eventObject, _event] of orderedEvents) {
+    //     console.log(`Catch Up:  ${adapter.entityName}`);
+    //     console.log(`Event object catchup: ${eventObject}`);
+    //     const id = await adapter.persist(eventObject, _event.blockNumber);
+    //     if (id) persistedIds.push(id);
+    //   }
+    // }
 
     // If this is a total resync, we need to clear out anything that wasn't just synced
     if (deleteExisting) {
