@@ -23,6 +23,7 @@ export function bigIntToDecimal(bigInt: bigint) {
 }
 
 // write function to convert from BigNumber to Decimal
-export function bigNumberToDecimal(bigNumber: BigNumber) {
+export function bigNumberToDecimal(bigNumber: BigNumber, decimals?: number) {
+
   return new Decimal(bigNumber.toString());
 }

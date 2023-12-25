@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"  
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -8,41 +8,46 @@ datasource db {
 }
 
 model Verification {
-  id               String       @id @default(uuid())
-  clientId         String
-  contractAddress  String
-  threshold        Decimal
-  statement        String
-  callbackUrls     String[]
-  client           Client      @relation(fields: [clientId], references: [id])
-  proofs           Proof[]
-  slug             String
+  id              String   @id @default(uuid())
+  clientId        String
+  contractAddress String
+  threshold       Decimal
+  statement       String
+  callbackUrls    String[]
+  client          Client   @relation(fields: [clientId], references: [id])
+  proofs          Proof[]
+  slug            String
 }
 
 model Client {
-  id               String       @id @default(uuid())
-  name             String
-  email            String
-  logoUrl          String
-  clientSecret     String
-  verifications    Verification[]
+  id            String         @id @default(uuid())
+  name          String
+  email         String
+  logoUrl       String
+  clientSecret  String
+  verifications Verification[]
 }
 
 model Proof {
-  id               String       @id @default(uuid())
-  proofId          String
-  verificationId   String
-  proofUrl         String
-  proofHash        String
-  blockNumber      Int
-  verification     Verification @relation(fields: [verificationId], references: [id])
+  id              String       @id @default(uuid())
+  verificationId  String
+  proofUrl        String
+  blockNumber     Int
+  verification    Verification @relation(fields: [verificationId], references: [id])
+  circuitPubInput Json
+  msgHash         String
+  statement       String
+  proof           String
+  r               String
+  rV              String
+  addresses       String[]
 }
 
 model Account {
-  address          String       @id
-  balance          Decimal
-  blockNumber      Int
-  contractAddress  String
+  address         String  @id
+  balance         Decimal
+  blockNumber     Int
+  contractAddress String
 }
 
 model BlockchainSyncState {
