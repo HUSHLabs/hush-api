@@ -1,7 +1,7 @@
-import { bigNumberToDecimal, PrismaService } from './prisma.service';
+import { PrismaService } from './prisma.service';
 import { Injectable } from '@nestjs/common';
 import { BaseBlockchainClient } from './base.blockchain.client';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { Decimal } from '@prisma/client/runtime/library';
 
 @Injectable()
@@ -11,11 +11,10 @@ export class AccountService {
     private readonly blockchainClient: BaseBlockchainClient,
   ) {}
 
-  async getAccountsForProof(
-    verificationId: string,
-    accountsNumber: number,
-    blockNumber: number,
-  ) {
+  async getAccountsForProof(verificationId: string, accountsNumber: number) {
+    const blockNumber =
+      await this.blockchainClient.usdt.provider.getBlockNumber();
+
     const verification = await this.prismaService.verification.findUnique({
       where: {
         id: verificationId,
@@ -59,11 +58,16 @@ export class AccountService {
 
     console.log('accountsWithEnoughBalance', accountsWithEnoughBalance);
 
-    // weed out null accounts and return addresses
-    return accountsWithEnoughBalance
+    const result: string[] = accountsWithEnoughBalance
       .filter((account) => account !== null)
       .map((account) => {
         return account.address;
       });
+
+    // weed out null accounts and return addresses
+    return {
+      blockNumber,
+      addresses: result,
+    };
   }
 }
