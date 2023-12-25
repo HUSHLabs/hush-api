@@ -31,7 +31,6 @@ model Client {
 model Proof {
   id              String       @id @default(uuid())
   verificationId  String
-  proofUrl        String
   blockNumber     Int
   verification    Verification @relation(fields: [verificationId], references: [id])
   circuitPubInput Json

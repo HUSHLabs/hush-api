@@ -1,4 +1,4 @@
-export interface IProof {
+export type IProof = {
   addresses: string[];
   circuitPubInput: {
     Tx: string;
@@ -12,4 +12,9 @@ export interface IProof {
   r: string;
   rV: string;
   statement: string;
-}
+};
+
+export type ProofCreateRequest = IProof & {
+  verificationId: string;
+  blockNumber: number;
+};
