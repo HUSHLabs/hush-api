@@ -26,6 +26,10 @@ export class ProofService {
     verificationId: string,
     blockNumber: number,
   ): Promise<Proof> {
+    console.log('proof', proof);
+    console.log('verificationId', verificationId);
+    console.log('blockNumber', blockNumber);
+
     return this.prismaService.proof.create({
       data: await this.toProofDto(proof, verificationId, blockNumber),
     });

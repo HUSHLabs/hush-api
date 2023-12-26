@@ -1,15 +1,24 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Req } from "@nestjs/common";
 import { ProofService } from './proof.service';
-import { IProof, ProofCreateRequest } from './proof.dtos';
+import { IProof } from './proof.dtos';
 
 @Controller()
 export class ProofController {
   constructor(private readonly proofService: ProofService) {}
 
-  @Post()
-  async createProof(body: ProofCreateRequest) {
+  @Post('/createProof')
+  async createProof(@Body() body) {
+    const proof: IProof = {
+      addresses: body.addresses,
+      circuitPubInput: body.circuitPubInput,
+      msgHash: body.msgHash,
+      proof: body.proof,
+      r: body.r,
+      rV: body.rV,
+      statement: body.statement,
+    };
     return await this.proofService.create(
-      body as IProof,
+      proof,
       body.verificationId,
       body.blockNumber,
     );
