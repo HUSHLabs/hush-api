@@ -9,7 +9,7 @@ export class VerificationController {
   constructor(private readonly verificationService: VerificationService) {}
 
   @Get('/verification/:slug')
-  async getVerificationById(
+  async getVerificationBySlug(
     @Param('slug') slug: string,
   ): Promise<VerificationResponse> {
     Logger.log(`Received request for verification with slug ${slug}`);

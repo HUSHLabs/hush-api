@@ -8,15 +8,19 @@ datasource db {
 }
 
 model Verification {
-  id              String   @id @default(uuid())
-  clientId        String
-  contractAddress String
-  threshold       Decimal
-  statement       String
-  callbackUrls    String[]
-  client          Client   @relation(fields: [clientId], references: [id])
-  proofs          Proof[]
-  slug            String
+  id               String   @id @default(uuid())
+  clientId         String
+  contractAddress  String
+  threshold        Decimal
+  statement        String
+  callbackUrls     String[]
+  client           Client   @relation(fields: [clientId], references: [id])
+  proofs           Proof[]
+  slug             String
+  name             String   @default("New Verification")
+  shortDescription String   @default("Short description")
+  description      String   @default("Long description")
+  imageUrl         String   @default("https://image")
 }
 
 model Client {

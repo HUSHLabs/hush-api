@@ -9,6 +9,10 @@ export type VerificationResponse = {
   clientName: string;
   clientLogo: string;
   slug: string;
+  description: string;
+  shortDescription: string;
+  imageUrl: string;
+  name: string;
 };
 
 @Injectable()
@@ -35,6 +39,10 @@ export class VerificationService {
         statement: verification.statement,
         clientName: verification.client.name,
         clientLogo: verification.client.logoUrl,
+        description: verification.description,
+        shortDescription: verification.shortDescription,
+        imageUrl: verification.imageUrl,
+        name: verification.name,
       };
     });
   }
@@ -64,6 +72,10 @@ export class VerificationService {
       statement: verification.statement,
       clientName: verification.client.name,
       clientLogo: verification.client.logoUrl,
+      description: verification.description,
+      shortDescription: verification.shortDescription,
+      imageUrl: verification.imageUrl,
+      name: verification.name,
     };
   }
 }
