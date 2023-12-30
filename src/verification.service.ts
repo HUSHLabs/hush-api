@@ -59,7 +59,38 @@ export class VerificationService {
     });
 
     Logger.log(
-      `Returning verification with id ${slug} verification: ${JSON.stringify(
+      `Returning verification with slug ${slug} verification: ${JSON.stringify(
+        verification,
+      )}`,
+    );
+
+    return {
+      id: verification.id,
+      slug: verification.slug,
+      threshold: verification.threshold,
+      contractAddress: verification.contractAddress,
+      statement: verification.statement,
+      clientName: verification.client.name,
+      clientLogo: verification.client.logoUrl,
+      description: verification.description,
+      shortDescription: verification.shortDescription,
+      imageUrl: verification.imageUrl,
+      name: verification.name,
+    };
+  }
+
+  async getVerificationById(id: string): Promise<VerificationResponse> {
+    const verification = await this.prismaService.verification.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        client: true,
+      },
+    });
+
+    Logger.log(
+      `Returning verification with id ${id} verification: ${JSON.stringify(
         verification,
       )}`,
     );

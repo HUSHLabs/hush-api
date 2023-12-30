@@ -12,6 +12,8 @@ export type IProof = {
   r: string;
   rV: string;
   statement: string;
+  blockNumber: number;
+  threshold: number;
 };
 
 export type ProofCreateRequest = IProof & {
