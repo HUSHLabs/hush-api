@@ -102,7 +102,7 @@ export class ProofService {
     blockNumber: string | number | Promise<BlockTag>,
     threshold: Decimal,
   ): Promise<boolean> {
-    await Promise.all(
+    const results = await Promise.all(
       // call blockchain client to check balance
       accounts.map(async (account) => {
         const balance = await this.blockchainClient.usdt.balanceOf(account, {
@@ -121,6 +121,6 @@ export class ProofService {
       }),
     );
 
-    return true;
+    return !results.some((result) => result === false);
   }
 }
