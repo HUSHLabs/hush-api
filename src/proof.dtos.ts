@@ -1,5 +1,3 @@
-import { Decimal } from "@prisma/client/runtime/library";
-
 export type IProof = {
   addresses: string[];
   proof: string;
