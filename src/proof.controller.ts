@@ -23,11 +23,8 @@ export class ProofController {
 
     const proof: IProof = {
       addresses: body.addresses,
-      circuitPubInput: body.circuitPubInput,
-      msgHash: body.msgHash,
       proof: body.proof,
-      r: body.r,
-      rV: body.rV,
+      publicInput: body.publicInput,
       statement: body.statement,
       threshold: Number(verification.threshold),
       blockNumber: body.blockNumber,

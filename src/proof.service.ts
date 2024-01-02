@@ -7,8 +7,6 @@ import {
   ProverConfig,
   VerifyConfig,
   MembershipVerifier,
-  PublicInput,
-  CircuitPubInput,
 } from '@personaelabs/spartan-ecdsa';
 import { ethers } from 'ethers';
 import { Decimal } from '@prisma/client/runtime/library';
@@ -17,7 +15,7 @@ import { BlockTag } from '@ethersproject/providers';
 
 type VerificationInput = {
   proof: Uint8Array;
-  publicInput: PublicInput;
+  publicInput: Uint8Array;
 };
 
 const hushProofProverConfigDefault: ProverConfig = {
@@ -42,10 +40,14 @@ export class ProofService {
     blockNumber: number,
   ): Promise<Proof> {
     return {
+      addresses: proof.addresses,
+      proof: proof.proof,
+      statement: proof.statement,
+      publicInput: proof.publicInput,
       blockNumber,
+      threshold: new Decimal(proof.threshold),
       id: UuidFactory.get(proof.proof),
-      ...proof,
-      verificationId: verificationId,
+      verificationId: verificationId
     };
   }
 
@@ -73,10 +75,8 @@ export class ProofService {
     await verifier.initWasm();
 
     Logger.log('Verifying proof from wasm');
-    const verified = await verifier.verify(
-      proof.proof,
-      proof.publicInput.serialize(),
-    );
+
+    const verified = await verifier.verify(proof.proof, proof.publicInput);
 
     Logger.log('Verified proof', verified);
     return verified;
@@ -91,18 +91,7 @@ export class ProofService {
 
     const verifiedZkProof = await this.verifyZkProof({
       proof: ethers.utils.arrayify(proof.proof),
-      publicInput: new PublicInput(
-        BigInt(proof.r),
-        BigInt(proof.rV),
-        Buffer.from(proof.msgHash),
-        new CircuitPubInput(
-          BigInt(proof.circuitPubInput.merkleRoot),
-          BigInt(proof.circuitPubInput.Tx),
-          BigInt(proof.circuitPubInput.Ty),
-          BigInt(proof.circuitPubInput.Ux),
-          BigInt(proof.circuitPubInput.Uy),
-        ),
-      ),
+      publicInput: ethers.utils.arrayify(proof.publicInput),
     });
 
     return verifiedZkProof && verifiedAddresses;

@@ -33,17 +33,15 @@ model Client {
 }
 
 model Proof {
-  id              String       @id @default(uuid())
-  verificationId  String
-  blockNumber     Int
-  verification    Verification @relation(fields: [verificationId], references: [id])
-  circuitPubInput Json
-  msgHash         String
-  statement       String
-  proof           String
-  r               String
-  rV              String
-  addresses       String[]
+  id             String       @id @default(uuid())
+  verificationId String
+  blockNumber    Int
+  verification   Verification @relation(fields: [verificationId], references: [id])
+  statement      String
+  proof          String
+  publicInput    String
+  threshold      Decimal
+  addresses      String[]
 }
 
 model Account {

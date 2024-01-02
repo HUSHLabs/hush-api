@@ -1,16 +1,9 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 export type IProof = {
   addresses: string[];
-  circuitPubInput: {
-    Tx: string;
-    Ty: string;
-    Ux: string;
-    Uy: string;
-    merkleRoot: string;
-  };
-  msgHash: string;
   proof: string;
-  r: string;
-  rV: string;
+  publicInput: string;
   statement: string;
   blockNumber: number;
   threshold: number;
