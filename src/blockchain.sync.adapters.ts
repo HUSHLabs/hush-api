@@ -50,11 +50,11 @@ export class ERC20RecordSyncAdapter
     event: TransferEventObject,
     blockNumber: number,
   ): Promise<string | null> {
-    console.log('Persisting Transfer event', JSON.stringify(event));
-    console.log('Persisting Transfer event', event);
+    // console.log('Persisting Transfer event', JSON.stringify(event));
+    // console.log('Persisting Transfer event', event);
     const { from, to, value } = event;
     // extract from args the fields we want to persist
-    Logger.log('Persisting Transfer event', { from, to, value });
+    // Logger.log('Persisting Transfer event', { from, to, value });
     // convert event to a record
     const decimals = this.contract.decimals();
     const fromFormatted = ethers.utils.formatUnits(

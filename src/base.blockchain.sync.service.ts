@@ -175,7 +175,7 @@ export abstract class BaseBlockchainSyncService {
     const serialize = pLimit(1);
     adapter.onEvent((eventContents: EventType, event: Log) => {
       const pendingProcessing = serialize(async () => {
-        console.log(`Event object at real time: ${await eventContents}`);
+        // console.log(`Event object at real time: ${await eventContents}`);
         await adapter.persist(eventContents, event.blockNumber);
 
         // Update sync state on each event
