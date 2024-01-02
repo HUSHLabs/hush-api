@@ -116,7 +116,7 @@ export class ProofService {
           console.log(
             `Account ${account} does not have enough balance at block number ${blockNumber}`,
           );
-          //return false;
+          return false;
         }
       }),
     );

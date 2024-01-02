@@ -43,7 +43,7 @@ export abstract class BaseBlockchainSyncService {
 
   constructor(private readonly baseBlockchainClient: BaseBlockchainClient) {
     // this.baseBlockchainClient.onContractsIntialized(() => this.run())
-    // this.run();
+    this.run();
   }
 
   protected async run() {
