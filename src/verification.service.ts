@@ -19,17 +19,23 @@ export type VerificationResponse = {
 export class VerificationService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getVerifications(): Promise<VerificationResponse[]> {
+  async getVerifications(clientName: string): Promise<VerificationResponse[]> {
     const verifications = await this.prismaService.verification.findMany({
       orderBy: [
         {
           threshold: 'asc',
         },
       ],
+      where: {
+        client: {
+          name: clientName,
+        },
+      },
       include: {
         client: true,
       },
     });
+    console.log(verifications);
     return verifications.map((verification) => {
       return {
         id: verification.id,
@@ -48,10 +54,16 @@ export class VerificationService {
   }
 
   // TODO: Implement guard for this route
-  async getVerificationBySlug(slug: string): Promise<VerificationResponse> {
+  async getVerificationBySlug(
+    client: string,
+    slug: string,
+  ): Promise<VerificationResponse> {
     const verification = await this.prismaService.verification.findFirst({
       where: {
         slug: slug,
+        client: {
+          name: client,
+        },
       },
       include: {
         client: true,
